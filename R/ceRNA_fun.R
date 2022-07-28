@@ -36,13 +36,12 @@ ceRNA_fun <- function(assembly="hg19",
                   pval=0.01,
                   fdr=0.01,
                   pancancerNum=0){
-  options(useFancyQuotes = F)
   link <- paste("https://starbase.sysu.edu.cn/api/ceRNA/?",
                 "assembly=",assembly,
                 "&geneType=", geneType,
                 "&ceRNA=",ceRNA,
                 "&miRNAnum=",miRNAnum,
-                "&family=", dQuote(family),
+                "&family=", family,
                 "&pval=",pval,
                 "&fdr=",fdr,
                 "&pancancerNum=", pancancerNum, sep = "")

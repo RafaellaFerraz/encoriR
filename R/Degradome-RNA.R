@@ -34,20 +34,31 @@ degradome_RNA <- function(assembly="hg19",
                           ampdegraExpNum=1,
                           target,
                           cellType="all"){
-  links <- paste("https://starbase.sysu.edu.cn/api/degradomeRNA/?",
-  "assembly=",assembly,
-  "&geneType=",geneType,
-  "&miRNA=",miRNA,
-  "&ampdegraExpNum=",ampdegraExpNum,
-  "&target=",target,
-  "&cellType=",cellType, sep = "")
-
   degradomes <- NULL
-  for (link in links){
-    degradome <- utils::read.csv(url(link), comment.char = "#", sep = "\t", row.names = NULL)
-    colnames(degradome)[1] <- "miRbase_ID"
-    degradomes <- rbind(degradomes, degradome)
+  for (gen in geneType){
+    for (mir in miRNA){
+      for(tar in target){
+        for (cell in cellType){
+          link <- paste("https://starbase.sysu.edu.cn/api/degradomeRNA/?",
+                         "assembly=",assembly,
+                         "&geneType=",gen,
+                         "&miRNA=",mir,
+                         "&ampdegraExpNum=",ampdegraExpNum,
+                         "&target=",tar,
+                         "&cellType=",cell, sep = "")
+          degradome <- utils::read.csv(url(link), comment.char = "#", sep = "\t", row.names = NULL)
+          if(degradome[1,1] != "The target parameter haven't been set correctly! Or the input of target parameter is not available!"
+             & !is.na(degradome[1,1])){
+            degradomes <- rbind(degradomes, degradome)
+          }
+        }
+      }
+    }
   }
-  return(degradomes)
-
+  if (is.null(degradomes)){
+    print("Data not available for selected targets")
+  } else{
+    BiocGenerics::colnames(degradomes)[1] <- "miRbase_ID"
+    return(degradomes)
+  }
 }

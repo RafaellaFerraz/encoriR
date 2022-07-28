@@ -55,22 +55,36 @@ mirna_target <- function(assembly="hg19",
                          program=NULL,
                          target,
                          cellType="all"){
-  links <- paste("https://starbase.sysu.edu.cn/api/miRNATarget/?",
-                "assembly=", assembly,
-                "&geneType=", geneType,
-                "&miRNA=", miRNA,
-                "&clipExpNum=", clipExpNum,
-                "&ampdegraExpNum=",ampdegraExpNum,
-                "&pancancerNum=",pancancerNum,
-                "&programNum=", programNum,
-                "&program=",program,
-                "&target=", target,
-                "&cellType=",cellType, sep = "")
-  miRNAs <- NULL
-  for (link in links){
-    miRNA <- utils::read.csv(url(link), comment.char = "#", sep = "\t", row.names = NULL)
-    colnames(miRNA)[1] <- "miRbase_ID"
-    miRNAs <- rbind(miRNAs, miRNA)
+  miRNA_out <- NULL
+  for (genT in geneType){
+    for (mir in miRNA){
+      for (tar in target){
+        for (cell in cellType){
+          link <- paste("https://starbase.sysu.edu.cn/api/miRNATarget/?",
+                         "assembly=", assembly,
+                         "&geneType=", genT,
+                         "&miRNA=", mir,
+                         "&clipExpNum=", clipExpNum,
+                         "&ampdegraExpNum=",ampdegraExpNum,
+                         "&pancancerNum=",pancancerNum,
+                         "&programNum=", programNum,
+                         "&program=",program,
+                         "&target=", tar,
+                         "&cellType=",cell, sep = "")
+
+          miRNA_url <- utils::read.csv(url(link), comment.char = "#", sep = "\t", row.names = NULL)
+          if(miRNA_url[1,1] != "The target parameter haven't been set correctly! Or the input of target parameter is not available!"
+             & !is.na(miRNA_url[1,1])){
+            miRNA_out <- rbind(miRNA_out, miRNA_url)
+          }
+        }
+      }
+    }
   }
-  return(miRNAs)
+  if (is.null(miRNA_out)){
+    print("Data not available for selected targets or incorrect parameters")
+  } else {
+    BiocGenerics::colnames(miRNA_out)[1] <- "miRbase_ID"
+    return(miRNA_out)
+  }
 }

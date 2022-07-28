@@ -3,7 +3,7 @@
 #'
 #'  @description Retrieve data for RBP-gene interactions and somatic mutations in human diseases
 #'
-#' @param assembly =[genome version]: hg19
+#' @param assembly =[unique genome version]: hg19
 #' @param RBP =[protein name]. e.g., CBX7 ("all" for downloading all regulatory data)
 #' @param tissue =[tissue name or organ name]. e.g., adrenal gland, breast
 #' @param disease =[cancers and rare diseases in human]. e.g., Rosai-Dorfman disease, Crohn disease, Proteus syndrome
@@ -33,16 +33,30 @@ rbp_disease <- function(assembly="hg19",
                         tissue,
                         disease,
                         target){
-  links <- paste("https://starbase.sysu.edu.cn/api/RBPDisease/?",
-                 "assembly=",assembly,
-                 "&RBP=",RBP,
-                 "&tissue=",tissue,
-                 "&disease=",disease,
-                 "&target=",target, sep = "")
   rbps <- NULL
-  for (link in links){
-    rbp <- utils::read.csv(url(link), comment.char = "#", sep = "\t", row.names = NULL)
-    rbps <- rbind(rbps, rbp)
+  for (tis in tissue){
+    for (dis in disease){
+      for (tar in target){
+        for (rbp in RBP){
+          link <- paste("https://starbase.sysu.edu.cn/api/RBPDisease/?",
+                        "assembly=",assembly,
+                        "&RBP=",rbp,
+                        "&tissue=",tis,
+                        "&disease=",dis,
+                        "&target=",tar, sep = "")
+          rbp <- utils::read.csv(url(link), comment.char = "#", sep = "\t", row.names = NULL)
+          if(rbp[1,1] != "The target parameter haven't been set correctly! Or the input of target parameter is not available!"
+             & !is.na(rbp[1,1])){
+            rbps <- rbind(rbps, rbp)
+          }
+
+        }
+      }
+    }
   }
-  return(rbps)
+  if (is.null(rbps)){
+    print("Data not available or incorrect parameters")
+  } else{
+    return(rbps)
+  }
 }

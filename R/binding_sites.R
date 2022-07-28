@@ -28,9 +28,15 @@ binding_sites <- function(assembly="hg19",
   bindings <- NULL
   for (link in links){
     binding <- utils::read.table(url(link),header = FALSE, sep="\t",stringsAsFactors=FALSE, quote="", comment.char = "#", row.names = NULL)
-    bindings <- rbind(bindings, binding)
+    if(binding[1,1] != "The \"datasetID\" parameter haven't been set correctly! Or the input of \"datasetID\" parameter is not available!"
+       & class(binding) == "data.frame"){
+      bindings <- rbind(bindings, binding)
+    }
   }
-  colnames(bindings) <- c("chrom", "chromStart", "chromEnd", "name", "score", "strand")
-  return(bindings)
-
+  if (is.null(bindings)){
+    print("DatasetID parameter is not available")
+  } else{
+    BiocGenerics::colnames(bindings) <- c("chrom", "chromStart", "chromEnd", "name", "score", "strand")
+    return(bindings)
+  }
 }

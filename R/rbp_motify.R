@@ -2,7 +2,7 @@
 #'
 #' @description Retrieve binding motifs of RBPs contained specific sequence pattern, which were de novo identified from their CLIP-seq peak data by Homer.
 #'
-#' @param assembly =[genome version]. hg19, mm10, dm6, ce10, sacCer3
+#' @param assembly =[unique genome version]. hg19, mm10, dm6, ce10, sacCer3
 #' @param motif =[motif pattern]. e.g., RRAC
 #' @param rankLimit =[integer]. Rank limit of RNA binding motifs (default is 10)
 #'
@@ -42,7 +42,15 @@ rbp_motify <- function(assembly="hg19",
   motifys <- NULL
   for (link in links){
     motify <- utils::read.csv(url(link), comment.char = "#", sep = "\t", row.names = NULL)
-    motifys <- rbind(motifys, motify)
+    if(motify[1,1] != "The target parameter haven't been set correctly! Or the input of target parameter is not available!"
+       & !is.na(motify[1,1])){
+      motifys <- rbind(motifys, motify)
+    }
+
   }
-  return(motifys)
+  if (is.null(motifys)){
+    print("Data not available for selected motifys or incorrect parameters")
+  } else{
+    return(motifys)
+  }
 }

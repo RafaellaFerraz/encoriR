@@ -3,7 +3,7 @@
 #' @description Retrieve data of RBP-RNA interactions supported by the binding sites of RBPs derived from CLIP-seq data
 #'
 #'
-#' @param assembly =[genome version]. hg19, mm10, dm6, ce10, sacCer3
+#' @param assembly =[unique genome version]. hg19, mm10, dm6, ce10, sacCer3
 #' @param geneType =[main gene type]: mRNA, lncRNA, pseudogene, circRNA, sncRNA
 #' @param RBP =[protein name]: CBX7 ("all" for downloading all regulatory data)
 #' @param clipExpNum =[integer]: minimum number of supporting CLIP-seq experiments
@@ -43,20 +43,32 @@ rbp_target <- function(assembly="hg19",
                        clipExpNum = 5,
                        target,
                        cellType="all"){
-  links <- paste("https://starbase.sysu.edu.cn/api/RBPTarget/?",
-                 "assembly=",assembly,
-                 "&geneType=",geneType,
-                 "&RBP=",RBP,
-                 "&clipExpNum=",clipExpNum,
-                 "&pancancerNum=",pancancerNum,
-                 "&target=",target,
-                 "&cellType=",cellType, sep = "")
+  rbps_out <- NULL
+  for(gen in geneType){
+    for(rbp in RBP){
+      for (tar in target){
+        for(cell in cellType){
+          link <- paste("https://starbase.sysu.edu.cn/api/RBPTarget/?",
+                         "assembly=",assembly,
+                         "&geneType=",gen,
+                         "&RBP=",rbp,
+                         "&clipExpNum=",clipExpNum,
+                         "&pancancerNum=",pancancerNum,
+                         "&target=",tar,
+                         "&cellType=",cell, sep = "")
+          rbp_url <- utils::read.csv(url(link), comment.char = "#", sep = "\t", row.names = NULL)
+          if(rbp_url[1,1] != "The target parameter haven't been set correctly! Or the input of target parameter is not available!"
+             & !is.na(rbp_url[1,1])){
+            rbps_out <- rbind(rbps_out, rbp_url)
+          }
 
-  rbps <- NULL
-  for (link in links){
-    rbp <- utils::read.csv(url(link), comment.char = "#", sep = "\t", row.names = NULL)
-    rbps <- rbind(rbps, rbp)
+        }
+      }
+    }
   }
-  return(rbps)
-
+  if (is.null(rbps_out)){
+    print("Data not available or incorrect parameters")
+  } else{
+    return(rbps_out)
+  }
 }

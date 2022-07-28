@@ -2,7 +2,7 @@
 #'
 #' @description Retrieve data of the miRNA-target interactions by intersecting the predicting target sites of miRNAs with binding sites of Ago protein
 #'
-#' @param assembly genome version: hg19, mm10
+#' @param assembly unique genome version: hg19, mm10
 #' @param geneType main gene type: mRNA, lncRNA, pseudogene, circRNA, sncRNA
 #' @param miRNA microRNA name. e.g., hsa-miR-21-5p; "all" for downloading all regulatory data
 #' @param clipExpNum integer: minimum number of supporting CLIP-seq experiments
@@ -54,23 +54,35 @@ targets_of_miRNAs <- function(assembly="hg19",
                               program="None",
                               target="all",
                               cellType="all"){
-  links <- paste("https://starbase.sysu.edu.cn/api/miRNATarget/?",
-                "assembly=",assembly,
-                "&geneType=",geneType,
-                "&miRNA=",miRNA,
-                "&clipExpNum=",clipExpNum,
-                "&ampdegraExpNum=", ampdegraExpNum,
-                "&pancancerNum=",pancancerNum,
-                "&programNum=",programNum,
-                "&program=",program,
-                "&target=",target,
-                "&cellType=",cellType, sep = "")
   targets <- NULL
-  for (link in links){
-    target <- utils::read.csv(url(link), comment.char = "#", sep = "\t", row.names = NULL)
-    colnames(target)[1] <- "miRbase_ID"
-    targets <- rbind(targets, target)
+  for (mir in miRNA){
+    for (tar in target){
+      for (cell in cellType){
+        for (genT in geneType){
+          link <- paste("https://starbase.sysu.edu.cn/api/miRNATarget/?",
+                        "assembly=",assembly,
+                        "&geneType=",genT,
+                        "&miRNA=",mir,
+                        "&clipExpNum=",clipExpNum,
+                        "&ampdegraExpNum=", ampdegraExpNum,
+                        "&pancancerNum=",pancancerNum,
+                        "&programNum=",programNum,
+                        "&program=",program,
+                        "&target=",tar,
+                        "&cellType=",cell, sep = "")
+          target_url <- utils::read.csv(base::url(description = link), comment.char = "#", sep = "\t", row.names = NULL)
+          BiocGenerics::colnames(target_url)[1] <- "miRbase_ID"
+          if(target_url[1,1] != "The miRNA parameter haven't been set correctly! Or the input of miRNA parameter is not available!" & !is.na(target_url[1,1])){
+            targets <- rbind(targets, target_url)
+          }
+        }
+      }
+    }
   }
-  return(targets)
+  if (is.null(targets)){
+    print("Data not available for selected miRNAs or incorrect parameters")
+  } else {
+    return(targets)
+  }
 }
 
