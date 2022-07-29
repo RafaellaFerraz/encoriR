@@ -7,7 +7,7 @@
 rbp_disease(assembly = "hg19", RBP = "all", tissue, disease, target)
 }
 \arguments{
-\item{assembly}{=[genome version]: hg19}
+\item{assembly}{=[unique genome version]: hg19}
 
 \item{RBP}{=[protein name]. e.g., CBX7 ("all" for downloading all regulatory data)}
 

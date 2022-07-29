@@ -7,7 +7,7 @@
 rbp_motify(assembly = "hg19", motif, rankLimit = 10)
 }
 \arguments{
-\item{assembly}{=[genome version]. hg19, mm10, dm6, ce10, sacCer3}
+\item{assembly}{=[unique genome version]. hg19, mm10, dm6, ce10, sacCer3}
 
 \item{motif}{=[motif pattern]. e.g., RRAC}
 

@@ -18,7 +18,7 @@ targets_of_miRNAs(
 )
 }
 \arguments{
-\item{assembly}{genome version: hg19, mm10}
+\item{assembly}{unique genome version: hg19, mm10}
 
 \item{geneType}{main gene type: mRNA, lncRNA, pseudogene, circRNA, sncRNA}
 

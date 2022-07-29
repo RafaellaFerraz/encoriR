@@ -15,7 +15,7 @@ rbp_target(
 )
 }
 \arguments{
-\item{assembly}{=[genome version]. hg19, mm10, dm6, ce10, sacCer3}
+\item{assembly}{=[unique genome version]. hg19, mm10, dm6, ce10, sacCer3}
 
 \item{geneType}{=[main gene type]: mRNA, lncRNA, pseudogene, circRNA, sncRNA}
 
