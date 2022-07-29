@@ -29,7 +29,7 @@ binding_sites <- function(assembly="hg19",
   for (link in links){
     binding <- utils::read.table(url(link),header = FALSE, sep="\t",stringsAsFactors=FALSE, quote="", comment.char = "#", row.names = NULL)
     if(binding[1,1] != "The \"datasetID\" parameter haven't been set correctly! Or the input of \"datasetID\" parameter is not available!"
-       & class(binding) == "data.frame"){
+       & !is.na(binding[1,1])){
       bindings <- rbind(bindings, binding)
     }
   }

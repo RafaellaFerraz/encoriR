@@ -56,7 +56,7 @@ degradome_RNA <- function(assembly="hg19",
     }
   }
   if (is.null(degradomes)){
-    print("Data not available for selected targets")
+    print("Data not available for selected targets or incorrect parameters")
   } else{
     BiocGenerics::colnames(degradomes)[1] <- "miRbase_ID"
     return(degradomes)
