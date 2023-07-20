@@ -38,7 +38,7 @@ rbp_disease <- function(assembly="hg19",
     for (dis in disease){
       for (tar in target){
         for (rbp in RBP){
-          link <- paste("https://starbase.sysu.edu.cn/api/RBPDisease/?",
+          link <- paste("https://rna.sysu.edu.cn/encori/api/RBPDisease/?",
                         "assembly=",assembly,
                         "&RBP=",rbp,
                         "&tissue=",tis,

@@ -2,7 +2,7 @@
 #'
 #' @description Retrieve binding motifs of RBPs contained specific sequence pattern, which were de novo identified from their CLIP-seq peak data by Homer.
 #'
-#' @param assembly =[unique genome version]. hg19, mm10, dm6, ce10, sacCer3
+#' @param assembly =[unique genome version]. hg38, mm10, dm6, ce10, sacCer3
 #' @param motif =[motif pattern]. e.g., RRAC
 #' @param rankLimit =[integer]. Rank limit of RNA binding motifs (default is 10)
 #'
@@ -30,10 +30,10 @@
 #'
 #' mot_rrac <- rbp_motify(motif = "RRAC")
 #'
-rbp_motify <- function(assembly="hg19",
+rbp_motify <- function(assembly="hg38",
                        motif,
                        rankLimit=10){
-  links <- paste("https://starbase.sysu.edu.cn/api/RBPMotifScan/?",
+  links <- paste("https://rna.sysu.edu.cn/encori/api/RBPMotifScan/?",
   "assembly=",assembly,
   "&motif=",motif,
   "&rankLimit=",rankLimit, sep = "")

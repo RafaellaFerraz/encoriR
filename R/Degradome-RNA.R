@@ -39,7 +39,7 @@ degradome_RNA <- function(assembly="hg19",
     for (mir in miRNA){
       for(tar in target){
         for (cell in cellType){
-          link <- paste("https://starbase.sysu.edu.cn/api/degradomeRNA/?",
+          link <- paste("https://rna.sysu.edu.cn/encori/api/degradomeRNA/?",
                          "assembly=",assembly,
                          "&geneType=",gen,
                          "&miRNA=",mir,

@@ -3,7 +3,7 @@
 #' @description Retrieve data of the miRNA-target interactions by intersecting the predicting target sites of miRNAs with binding sites of Ago protein
 #'
 #'
-#' @param assembly genome version: hg19, mm10
+#' @param assembly genome version: hg38, mm10
 #' @param geneType main gene type: mRNA, lncRNA, pseudogene, circRNA, sncRNA
 #' @param miRNA microRNA name. e.g., hsa-miR-21-5p; "all" for downloading all regulatory data
 #' @param clipExpNum integer: minimum number of supporting CLIP-seq experiments
@@ -45,7 +45,7 @@
 #' tp53_vdr <-  mirna_target(target = c("TP53","VDR"), geneType = "mRNA")
 #' h19 <- mirna_target(target = "H19", geneType = "lncRNA")
 
-mirna_target <- function(assembly="hg19",
+mirna_target <- function(assembly="hg38",
                          geneType,
                          miRNA="all",
                          clipExpNum=NULL,
@@ -60,7 +60,7 @@ mirna_target <- function(assembly="hg19",
     for (mir in miRNA){
       for (tar in target){
         for (cell in cellType){
-          link <- paste("https://starbase.sysu.edu.cn/api/miRNATarget/?",
+          link <- paste("https://rna.sysu.edu.cn/encori/api/miRNATarget/?",
                          "assembly=", assembly,
                          "&geneType=", genT,
                          "&miRNA=", mir,

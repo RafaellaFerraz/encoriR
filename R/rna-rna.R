@@ -2,7 +2,7 @@
 #'
 #' @description Retrieve the interaction network of ncRNA-RNA identified from high-throughput sequencing data of RNA-RNA interactome
 #'
-#' @param assembly =[genome version]: hg19, mm10
+#' @param assembly =[genome version]: hg38, mm10
 #' @param geneType =[main gene type]: mRNA, lncRNA, pseudogene, sncRNA, miRNA
 #' @param RNA =[RNA name]. e.g., TP53 ("all" for downloading all regulatory data)
 #' @param interNum =[integer]: miminum number of RNA-RNA interactions
@@ -34,7 +34,7 @@
 #' int_tp_brca<- rna_rna(geneType = "mRNA", RNA = c("TP53", "BRCA1"))
 #' int_h19 <- rna_rna(geneType = "lncRNA", RNA = "H19")
 #'
-rna_rna <- function(assembly="hg19",
+rna_rna <- function(assembly="hg38",
                     geneType,
                     RNA,
                     interNum=1,
@@ -44,7 +44,7 @@ rna_rna <- function(assembly="hg19",
   for (gen in geneType){
     for (rna in RNA){
       for (cell in cellType){
-        link <- paste("https://starbase.sysu.edu.cn/api/RNARNA/?",
+        link <- paste("https://rna.sysu.edu.cn/encori/api/RNARNA/?",
                       "assembly=",assembly,
                       "&geneType=",gen,
                       "&RNA=",rna,

@@ -3,7 +3,7 @@
 #' @description Retrieve data of RBP-RNA interactions supported by the binding sites of RBPs derived from CLIP-seq data
 #'
 #'
-#' @param assembly =[unique genome version]. hg19, mm10, dm6, ce10, sacCer3
+#' @param assembly =[unique genome version]. hg38, mm10, dm6, ce10, sacCer3
 #' @param geneType =[main gene type]: mRNA, lncRNA, pseudogene, circRNA, sncRNA
 #' @param RBP =[protein name]: CBX7 ("all" for downloading all regulatory data)
 #' @param clipExpNum =[integer]: minimum number of supporting CLIP-seq experiments
@@ -36,7 +36,7 @@
 #' rbp_tp53 <- rbp_target(geneType = "mRNA", target = "TP53")
 #' rbps <- rbp_target(geneType = "mRNA", target = c("TP53", "BRCA1"))
 
-rbp_target <- function(assembly="hg19",
+rbp_target <- function(assembly="hg38",
                        geneType,
                        RBP="all",
                        pancancerNum=0,
@@ -48,7 +48,7 @@ rbp_target <- function(assembly="hg19",
     for(rbp in RBP){
       for (tar in target){
         for(cell in cellType){
-          link <- paste("https://starbase.sysu.edu.cn/api/RBPTarget/?",
+          link <- paste("https://rna.sysu.edu.cn/encori/api/RBPTarget/?",
                          "assembly=",assembly,
                          "&geneType=",gen,
                          "&RBP=",rbp,

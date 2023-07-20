@@ -2,7 +2,7 @@
 #'
 #' @description Download the binding sites of CLIP-seq in bed format
 #'
-#' @param assembly =[genome version]. hg19, mm10, dm6, ce10, sacCer3
+#' @param assembly =[genome version]. hg38, mm10, dm6, ce10, sacCer3
 #' @param datasetID =[uniq dataset ID]. e.g., SBDH27
 #'
 #' @return chrom - The name of the chromosome (e.g. chr3, chrY, chr2_random) or scaffold (e.g. scaffold10671).
@@ -19,9 +19,9 @@
 #'
 #' bind <- binding_sites(datasetID = "SBDH27")
 #'
-binding_sites <- function(assembly="hg19",
+binding_sites <- function(assembly="hg38",
                           datasetID){
-  links <- paste("https://starbase.sysu.edu.cn/api/bindingSite/?",
+  links <- paste("https://rna.sysu.edu.cn/encori/api/bindingSite/?",
                  "assembly=",assembly,
                  "&datasetID=",datasetID,sep = "")
 
