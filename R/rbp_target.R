@@ -40,7 +40,7 @@ rbp_target <- function(assembly="hg38",
                        geneType,
                        RBP="all",
                        pancancerNum=0,
-                       clipExpNum = 5,
+                       clipExpNum = 1,
                        target,
                        cellType="all"){
   rbps_out <- NULL
