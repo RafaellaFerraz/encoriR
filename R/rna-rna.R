@@ -44,7 +44,7 @@ rna_rna <- function(assembly="hg38",
   for (gen in geneType){
     for (rna in RNA){
       for (cell in cellType){
-        link <- paste("https://rna.sysu.edu.cn/encori/api/RNARNA/?",
+        link <- paste("https://rnasysu.com/encori/api/RNARNA/?",
                       "assembly=",assembly,
                       "&geneType=",gen,
                       "&RNA=",rna,
