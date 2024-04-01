@@ -65,7 +65,7 @@ rna_rna <- function(assembly="hg38",
   if (is.null(rna_interactions)){
     print("Data not available or incorrect parameters")
   } else{
-    BiocGenerics::colnames(rna_interactions)[1] <- "miRbase_ID"
+    BiocGenerics::colnames(rna_interactions)[1] <- "geneID"
     return(rna_interactions)
   }
 }
